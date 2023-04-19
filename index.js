@@ -30,6 +30,15 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello World!</h1>");
 });
 
+app.get("/info", (req, res) => {
+  let luettelo_pituus = persons.length;
+  let date = new Date();
+  res.send(
+    `<p>Phonebook has info for ${luettelo_pituus} people</p>
+    <p>${date}</p>`
+  );
+});
+
 app.get("/api/persons", (req, res) => {
   res.json(persons);
 });
