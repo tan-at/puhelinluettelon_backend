@@ -55,30 +55,10 @@ app.get("/api/persons/:id", (request, response) => {
 });
 
 const generateId = () => {
-  const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
-  return maxId + 1;
+  const maxId =
+    persons.length > 0 ? Math.round(Math.random() * (1000 - 20)) : 0;
+  return maxId;
 };
-
-app.post("/api/persons", (request, response) => {
-  const body = request.body;
-
-  if (!body.content) {
-    return response.status(400).json({
-      error: "content missing",
-    });
-  }
-
-  const person = {
-    content: body.content,
-    important: body.important || false,
-    date: new Date(),
-    id: generateId(),
-  };
-
-  persons = persons.concat(person);
-
-  response.json(person);
-});
 
 app.get("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
@@ -89,6 +69,32 @@ app.get("/api/persons/:id", (request, response) => {
   } else {
     response.status(404).end();
   }
+
+  response.json(person);
+});
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  if (!body.name | !body.number) {
+    return response.status(400).json({
+      error: "name or number missing",
+    });
+  }
+
+  if (persons.find((person) => person.name === body.name)) {
+    return response.status(400).json({
+      error: "name must be unique",
+    });
+  }
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(person);
 
   response.json(person);
 });
