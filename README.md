@@ -1,2 +1,2 @@
-Linkki sovellukseen:
+App hosted at:
 https://puhelinluettelo-bkjh.onrender.com
