@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
@@ -15,9 +16,12 @@ const requestLogger = (request, response, next) => {
 
 app.use(express.static("build"));
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(requestLogger);
 app.use(morgan("tiny"));
 app.use(cors());
+
+morgan.token("body", (req) => JSON.stringify(req.body));
 
 let persons = [
   {
