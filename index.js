@@ -93,7 +93,7 @@ app.get("/api/persons/:id", (request, response) => {
     });
 });
 
-app.post("/api/persons", (request, response, next) => {
+app.post("/api/persons", (request, response) => {
   const body = request.body;
 
   if (!body.name | !body.number) {
