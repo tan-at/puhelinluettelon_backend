@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
@@ -16,12 +15,9 @@ const requestLogger = (request, response, next) => {
 
 app.use(express.static("build"));
 app.use(express.json());
-app.use(bodyParser.json());
 app.use(requestLogger);
 app.use(morgan("tiny"));
 app.use(cors());
-
-morgan.token("body", (req) => JSON.stringify(req.body));
 
 let persons = [
   {
@@ -102,7 +98,7 @@ app.post("/api/persons", (request, response) => {
 
   person
     .save()
-    .then((savedPerson) => savedPerson.toJSON())
+    .then((savedPerson) => savedPerson)
     .then((newSavedPerson) => {
       response.json(newSavedPerson);
     })
@@ -123,7 +119,7 @@ app.put("/api/persons/:id", (request, response, next) => {
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then((updatedPerson) => {
-      response.json(updatedPerson.toJSON());
+      response.json(updatedPerson);
     })
     .catch((error) => next(error));
 });
