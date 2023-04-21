@@ -93,7 +93,7 @@ app.get("/api/persons/:id", (request, response) => {
     });
 });
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
 
   if (!body.name | !body.number) {
@@ -114,9 +114,17 @@ app.post("/api/persons", (request, response) => {
     number: body.number,
   });
 
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+  person
+    .save()
+    .then((savedPerson) => savedPerson.toJSON())
+    .then((newSavedPerson) => {
+      response.json(newSavedPerson);
+    })
+    .catch((error) => {
+      return response.status(400).json({
+        error: "name must be unique",
+      });
+    });
 });
 
 app.delete("/api/persons/:id", (request, response) => {
