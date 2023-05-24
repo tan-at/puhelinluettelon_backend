@@ -104,11 +104,7 @@ app.post("/api/persons", (request, response, next) => {
     .then((newSavedPerson) => {
       response.json(newSavedPerson);
     })
-    .catch((error) => {
-      return response.status(400).json({
-        error: "name must be unique",
-      });
-    });
+    .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", (request, response, next) => {
