@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 mongoose.set("strictQuery", false);
 
 const url = process.env.MONGODB_URI;
 
 console.log("connecting to", url);
+
 mongoose
   .connect(url)
   .then((result) => {
@@ -19,11 +21,14 @@ const puhelinluetteloSchema = new mongoose.Schema({
     type: String,
     minlength: 3,
     required: true,
+    unique: true,
   },
   number: {
     type: String,
   },
 });
+
+puhelinluetteloSchema.plugin(uniqueValidator);
 
 puhelinluetteloSchema.set("toJSON", {
   transform: (document, returnedObject) => {
