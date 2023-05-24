@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
 
 mongoose.set("strictQuery", false);
 
@@ -27,8 +26,6 @@ const puhelinluetteloSchema = new mongoose.Schema({
     type: String,
   },
 });
-
-puhelinluetteloSchema.plugin(uniqueValidator);
 
 puhelinluetteloSchema.set("toJSON", {
   transform: (document, returnedObject) => {
