@@ -78,11 +78,11 @@ app.get("/api/persons/:id", (request, response, next) => {
 app.post("/api/persons", (request, response, next) => {
   const body = request.body;
 
-  if (!body.name === undefined) {
+  if (body.name === undefined) {
     return response.status(400).json({ error: "name missing" });
   }
 
-  if (!body.number === undefined) {
+  if (body.number === undefined) {
     return response.status(400).json({ error: "number missing" });
   }
 
